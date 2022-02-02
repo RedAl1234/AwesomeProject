@@ -26,6 +26,7 @@ class HelloWorldApp extends Component {
       <SayHello name="World"/>
       <SayHello name="Ash"/>
       <SayHello name="Bob"/>
+      <SayHello name="MJ"/>
     </View> 
   );
 }
