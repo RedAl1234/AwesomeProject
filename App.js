@@ -1,35 +1,69 @@
-import React, { Component } from 'react'; 
-import { Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, TextInput, Button, FlatList } from 'react-native';
 
+class todo extends Component {
 
-class SayHello extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      items: [],
+      temp_item: ""
+    }
+  }
+
+  addItemToList = () => {
+    let newItems = this.state.items.concat(this.state.temp_item);
+    this.setState({
+      items: newItems,
+      temp_item: ""
+    });
+  }
+
+  remove = (index) => {
+    console.log(index);
+    let newList = this.state.items;
+    newList.splice(index, 1);
+    this.setState({ items: newList });
+  }
+
   render() {
-
     return (
       <View>
-        <Text>Hello, {this.props.name} 3!</Text>
+        <TextInput
+          placeholder='Add to list'
+          onChangeText={value => this.setState({ temp_item: value})}
+          value={this.state.temp_item}
+        />
+        <Button
+          onPress={() => {
+            this.addItemToList();
+          }}
+          title="Add"
+        />
+
+        <FlatList
+          data={this.state.items}
+          renderItem={({ item, index }) =>
+            <View>
+              <Text>{item}</Text>
+              <Button
+                onPress={() => this.remove(index)}
+                title="Remove Item"
+              />
+            </View>
+          }
+        />
+
+        <View>
+        <Text>{this.state.items}</Text>
+        </View>
+      
       </View>
-    );
-
+    )
   }
+
+
 }
 
-class HelloWorldApp extends Component {
-  render() {
-    
-  let name = "Ahmed";
-  
-  return (
-    <View>
-      <SayHello name="Ahmed"/>
-      <SayHello name="Mike"/>
-      <SayHello name="World"/>
-      <SayHello name="Ash"/>
-      <SayHello name="Bob"/>
-      <SayHello name="MJ"/>
-    </View> 
-  );
-}
-}
-
-export default HelloWorldApp;
+export default todo;
