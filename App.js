@@ -39,7 +39,7 @@ class todo extends Component {
           onPress={() => {
             this.addItemToList();
           }}
-          title="Add"
+          title="Add To List"
         />
 
         <FlatList
