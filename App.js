@@ -1,69 +1,38 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, Button, FlatList } from 'react-native';
+import 'react-native-gesture-handler';
 
-class todo extends Component {
+import * as React from 'react';
+import { Button, View } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      items: [],
-      temp_item: ""
-    }
-  }
-
-  addItemToList = () => {
-    let newItems = this.state.items.concat(this.state.temp_item);
-    this.setState({
-      items: newItems,
-      temp_item: ""
-    });
-  }
-
-  remove = (index) => {
-    console.log(index);
-    let newList = this.state.items;
-    newList.splice(index, 1);
-    this.setState({ items: newList });
-  }
-
-  render() {
-    return (
-      <View>
-        <TextInput
-          placeholder='Add to list'
-          onChangeText={value => this.setState({ temp_item: value})}
-          value={this.state.temp_item}
-        />
-        <Button
-          onPress={() => {
-            this.addItemToList();
-          }}
-          title="Add To List"
-        />
-
-        <FlatList
-          data={this.state.items}
-          renderItem={({ item, index }) =>
-            <View>
-              <Text>{item}</Text>
-              <Button
-                onPress={() => this.remove(index)}
-                title="Remove Item"
-              />
-            </View>
-          }
-        />
-
-        <View>
-        <Text>{this.state.items}</Text>
-        </View>
-      
-      </View>
-    )
-  }
-
-
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button
+        onPress={() => navigation.navigate('Notifications')}
+        title="Go to notifications"
+      />
+    </View>
+  );
 }
 
-export default todo;
+function NotificationsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    </View>
+  );
+}
+
+const Drawer = createDrawerNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}
